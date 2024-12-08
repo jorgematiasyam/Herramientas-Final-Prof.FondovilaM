@@ -98,11 +98,11 @@ namespace Turnos.Models
                 modelBuilder.Entity<MedicoEspecialidad>().HasKey(x => new{x.IdMedico, x.IdEspecialidad});
                 
                 modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Medico)
-                .withMany(p => p.MedicoEspecialidad)
+                .WithMany(p => p.MedicoEspecialidad)
                 .HasForeignKey(p => p.IdMedico);
 
                 modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Especialidad)
-                .withMany(p => p.MedicoEspecialidad)
+                .WithMany(p => p.MedicoEspecialidad)
                 .HasForeignKey(p => p.IdEspecialidad);
 
 

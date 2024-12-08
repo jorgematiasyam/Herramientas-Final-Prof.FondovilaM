@@ -71,7 +71,19 @@ namespace Turnos.Controllers
 [HttpPost] 
     public async Task<IActionResult> Delete(int id)
     {
+        
+        if(id==null)
+        {
+            return NotFound();
+        }
+        
         var especialidad = await _context.Especialidad.FindAsync(id);
+
+        if(especialidad==null)
+        {
+            return NotFound();
+        }
+
         _context.Especialidad.Remove(especialidad);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));

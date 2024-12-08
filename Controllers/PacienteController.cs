@@ -49,13 +49,83 @@ namespace Turnos.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            return View(paciente);
+        }
+
+public async Task<IActionResult> Edit(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var paciente = await _context.Paciente.FindAsync(id);
+
+            if(paciente == null)
+            {
+                return NotFound();
+            }
 
             return View(paciente);
-
-
-
-
         }
+
+[HttpPost] //Este edit graba
+[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("IdPaciente, Nombre, Apellido, Direccion, Telefono, Email")] Paciente paciente)
+        {
+            if(id!=paciente.IdPaciente)
+            {
+                return NotFound();
+            }
+            if(ModelState.IsValid)
+            {
+                _context.Update(paciente);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            return View(paciente);
+        }
+
+
+    public async Task<IActionResult> Delete(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var paciente = await _context.Paciente.FirstOrDefaultAsync(e => e.IdPaciente == id);
+            if(paciente == null)
+            {
+                return NotFound();
+            }
+            return View(paciente);
+        }
+
+[HttpPost, ActionName("Delete")] 
+[ValidateAntiForgeryToken]
+
+    public async Task<IActionResult> DeleteConfirmed(int? id)
+    {
+
+        if(id==null)
+        {
+            return NotFound();
+        }
+        var paciente = await _context.Paciente.FindAsync(id);
+        if(paciente==null)
+        {
+            return NotFound();
+        }
+       
+        _context.Paciente.Remove(paciente);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
+
+
 
     }
 

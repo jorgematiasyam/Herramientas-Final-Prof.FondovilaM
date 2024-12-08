@@ -1,29 +1,25 @@
-<!DOCTYPE html>
-<html>
+@model IEnumerable<Turnos.Models.Especialidad> 
+<!-- Recorro los registros de esta entidad y las muestro -->
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
+            </tr>
+        </thead>    
+        <tbody>
+            @*Aca va el codigo para mostrar los registros de la BBDD*@
+            @foreach(var item in Model){
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdEspecialidad">Editar</a>
+                    </td>
 
-    <head>
-        <title>Especialidades</title>
-    </head>
-    <body>
-        <table>
-            <thead>
-                <tr>
-                    <th>Descripcion</th>
                 </tr>
-            </thead>    
-            <tbody>
-                @*Aca va el codigo para mostrar los registros de la BBDD*@
-                <tr>
-                    <td>
-                        Traumatologo
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Cardiologo
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </body>
-</html>
+            }
+            
+            
+        </tbody>
+    </table>

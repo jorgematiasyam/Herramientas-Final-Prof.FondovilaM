@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Turnos.Models;
 namespace Turnos.Models
 {
     public class TurnosContext : DbContext
@@ -11,6 +12,7 @@ namespace Turnos.Models
 
         public DbSet<Especialidad> Especialidad {get; set; }
         public DbSet<Paciente> Paciente {get; set;}
+        public DbSet<Medico> Medico { get; set; }
 
 
 
@@ -58,6 +60,10 @@ namespace Turnos.Models
             );
 
         }
+
+
+
+        
 
     }
 

@@ -67,3 +67,4 @@ C:\Turnos\obj\Debug\netcoreapp3.1\Turnos.csproj.CopyComplete
 C:\Turnos\obj\Debug\netcoreapp3.1\Turnos.dll
 C:\Turnos\obj\Debug\netcoreapp3.1\Turnos.pdb
 C:\Turnos\obj\Debug\netcoreapp3.1\Razor\Views\Especialidad\Edit.cshtml.g.cs
+C:\Turnos\obj\Debug\netcoreapp3.1\Razor\Views\Especialidad\Delete.cshtml.g.cs

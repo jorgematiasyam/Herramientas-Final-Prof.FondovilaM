@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Turnos.Models;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 namespace Turnos.Controllers
 {
     public class EspecialidadController : Controller
@@ -11,18 +14,18 @@ namespace Turnos.Controllers
             _context = context; //inicializo context
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
 
-            return View(_context.Especialidad.ToList());
+            return View(await _context.Especialidad.ToListAsync());
         }
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
-            var especialidad = _context.Especialidad.Find(id);
+            var especialidad = await _context.Especialidad.FindAsync(id);
 
             if(especialidad == null)
             {
@@ -33,7 +36,7 @@ namespace Turnos.Controllers
         }
 
 [HttpPost] //Este edit graba
-        public IActionResult Edit(int id, [Bind("IdEspecialidad, Descripcion")] Especialidad especialidad)
+        public async Task<IActionResult> Edit(int id, [Bind("IdEspecialidad, Descripcion")] Especialidad especialidad)
         {
             if(id!=especialidad.IdEspecialidad)
             {
@@ -42,7 +45,7 @@ namespace Turnos.Controllers
             if(ModelState.IsValid)
             {
                 _context.Update(especialidad);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -50,16 +53,30 @@ namespace Turnos.Controllers
             return View(especialidad);
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
 
-            var especialidad = _context.Especialidad.FirstOrDefault(e => e.IdEspecialidad == id);
-            return View();
+            var especialidad = await _context.Especialidad.FirstOrDefaultAsync(e => e.IdEspecialidad == id);
+            if(especialidad == null)
+            {
+                return NotFound();
+            }
+            return View(especialidad);
         }
+
+[HttpPost] 
+    public async Task<IActionResult> Delete(int id)
+    {
+        var especialidad = await _context.Especialidad.FindAsync(id);
+        _context.Especialidad.Remove(especialidad);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+
 
 
     }

@@ -13,6 +13,7 @@ namespace Turnos.Models
         public DbSet<Especialidad> Especialidad {get; set; }
         public DbSet<Paciente> Paciente {get; set;}
         public DbSet<Medico> Medico { get; set; }
+        public DbSet<MedicoEspecialidad> MedicoEspecialidad {get; set;}
 
 
 
@@ -94,16 +95,18 @@ namespace Turnos.Models
                 });
                 
                 
+                modelBuilder.Entity<MedicoEspecialidad>().HasKey(x => new{x.IdMedico, x.IdEspecialidad});
                 
-                
+                modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Medico)
+                .withMany(p => p.MedicoEspecialidad)
+                .HasForeignKey(p => p.IdMedico);
 
-
+                modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Especialidad)
+                .withMany(p => p.MedicoEspecialidad)
+                .HasForeignKey(p => p.IdEspecialidad);
 
 
         }
-
-
-
         
 
     }

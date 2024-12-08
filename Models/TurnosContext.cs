@@ -10,6 +10,9 @@ namespace Turnos.Models
         }
 
         public DbSet<Especialidad> Especialidad {get; set; }
+        public DbSet<Paciente> Paciente {get; set;}
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +25,38 @@ namespace Turnos.Models
                     .HasMaxLength(200)
                     .IsUnicode(false);
             });
+
+
+            modelBuilder.Entity<Paciente>(entidad =>
+            {
+                entidad.ToTable("Paciente");
+                entidad.HasKey(e => e.IdPaciente);
+                entidad.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+                entidad.Property(e => e.Apellido)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+                entidad.Property(e => e.Direccion)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+                entidad.Property(e => e.Telefono)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+                entidad.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+
+            }
+            
+            );
+
         }
 
     }

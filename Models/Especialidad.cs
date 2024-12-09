@@ -7,7 +7,9 @@ public class Especialidad
         [Key]
         public int IdEspecialidad {get; set;}
 
-        [Display(Name = "Descripción")]
+        [StringLength(200)]
+        [Required(ErrorMessage = "Debe ingresar una descripción")]
+        [Display(Name = "Descripción", Prompt = "Ingrese una descripción")]
         public string Descripcion { get; set; }
         public List<MedicoEspecialidad> MedicoEspecialidad { get; set; }
     }

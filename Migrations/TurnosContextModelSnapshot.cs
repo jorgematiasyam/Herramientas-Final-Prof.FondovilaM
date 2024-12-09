@@ -37,6 +37,26 @@ namespace Turnos.Migrations
                     b.ToTable("Especialidad");
                 });
 
+            modelBuilder.Entity("Turnos.Models.Login", b =>
+                {
+                    b.Property<int>("LoginId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Usuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LoginId");
+
+                    b.ToTable("Login");
+                });
+
             modelBuilder.Entity("Turnos.Models.Medico", b =>
                 {
                     b.Property<int>("IdMedico")

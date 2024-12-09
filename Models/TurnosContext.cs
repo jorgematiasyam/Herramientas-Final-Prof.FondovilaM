@@ -13,23 +13,30 @@ namespace Turnos.Models
         public DbSet<Especialidad> Especialidad {get; set; }
         public DbSet<Paciente> Paciente {get; set;}
         public DbSet<Medico> Medico { get; set; }
-        public DbSet<MedicoEspecialidad> MedicoEspecialidad {get; set;}
+        
+        public DbSet<MedicoEspecialidad> MedicoEspecialidad { get; set; }
         public DbSet<Turno> Turno {get; set;}
+        public DbSet<Login> Login {get; set;}
+
+
+        
 
 
 
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Especialidad>(entidad => {
+            modelBuilder.Entity<Especialidad>(entidad => 
+            {
                 entidad.ToTable("Especialidad");
 
                 entidad.HasKey(e => e.IdEspecialidad);
+
                 entidad.Property(e => e.Descripcion)
-                    .IsRequired()
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-            });
+                .IsRequired()
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            }
+            );
 
 
             modelBuilder.Entity<Paciente>(entidad =>
@@ -62,51 +69,55 @@ namespace Turnos.Models
             
             );
 
-                modelBuilder.Entity<Medico>(entidad => 
-                {
-                    entidad.ToTable("Medico");
-                    entidad.HasKey(m => m.IdMedico);
-                    entidad.Property(m => m.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-                    entidad.Property(m => m.Apellido)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-                    entidad.Property(m => m.Direccion)
-                    .IsRequired()
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-                    entidad.Property(m => m.Telefono)
-                    .IsRequired()
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-                    entidad.Property(m => m.Email)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-                    entidad.Property(m => m.HorarioAtencionDesde)
-                    .IsRequired()
-                    .IsUnicode(false);
-                    entidad.Property(m => m.HorarioAtencionHasta)
-                    .IsRequired()
-                    .IsUnicode(false);
+                modelBuilder.Entity<Medico>(entidad =>
+        {
+            entidad.ToTable("Medico");
 
+            entidad.HasKey(m => m.IdMedico);
 
-                });
-                
-                
-                modelBuilder.Entity<MedicoEspecialidad>().HasKey(x => new{x.IdMedico, x.IdEspecialidad});
-                
-                modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Medico)
-                .WithMany(p => p.MedicoEspecialidad)
-                .HasForeignKey(p => p.IdMedico);
+            entidad.Property(m => m.Nombre)
+            .IsRequired()
+            .HasMaxLength(50)
+            .IsUnicode(false);
 
-                modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Especialidad)
-                .WithMany(p => p.MedicoEspecialidad)
-                .HasForeignKey(p => p.IdEspecialidad);
+            entidad.Property(m => m.Apellido)
+            .IsRequired()
+            .HasMaxLength(50)
+            .IsUnicode(false);
 
+            entidad.Property(m => m.Direccion)
+            .IsRequired()
+            .HasMaxLength(250)
+            .IsUnicode(false);
+
+            entidad.Property(m => m.Telefono)
+            .IsRequired()
+            .HasMaxLength(20)
+            .IsUnicode(false);
+
+            entidad.Property(m => m.Email)
+            .IsRequired()
+            .HasMaxLength(50)
+            .IsUnicode(false);
+
+            entidad.Property(m => m.HorarioAtencionDesde)
+            .IsRequired()            
+            .IsUnicode(false);
+
+            entidad.Property(m => m.HorarioAtencionHasta)
+            .IsRequired()            
+            .IsUnicode(false);
+        });
+        
+        modelBuilder.Entity<MedicoEspecialidad>().HasKey(x => new { x.IdMedico, x.IdEspecialidad });
+
+        modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Medico)
+        .WithMany(p => p.MedicoEspecialidad)
+        .HasForeignKey(p => p.IdMedico);
+
+        modelBuilder.Entity<MedicoEspecialidad>().HasOne(x => x.Especialidad)
+        .WithMany(p => p.MedicoEspecialidad)
+        .HasForeignKey(p => p.IdEspecialidad);
 
 
                 modelBuilder.Entity<Turno>(entidad => 
@@ -143,6 +154,14 @@ namespace Turnos.Models
                 .HasForeignKey(p => p.IdMedico);
 
 
+                modelBuilder.Entity<Login>(entidad => {entidad.ToTable("Login");
+                entidad.HasKey(l => l.LoginId);
+                entidad.Property(l => l.Usuario).IsRequired();
+                entidad.Property(l => l.Password).IsRequired();    
+                });        
+        }
+                
+
 
 
         }
@@ -150,4 +169,3 @@ namespace Turnos.Models
 
     }
 
-}

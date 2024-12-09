@@ -100,9 +100,7 @@ namespace Turnos.Controllers
             return View(medico);
         }
 
-        // POST: Medico/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Medico/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdMedico,Nombre,Apellido,Direccion,Telefono,Email,HorarioAtencionDesde,HorarioAtencionHasta")] Medico medico, int IdEspecialidad)
@@ -146,6 +144,9 @@ namespace Turnos.Controllers
             return View(medico);
         }
 
+
+
+
         // GET: Medico/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -184,5 +185,18 @@ namespace Turnos.Controllers
         {
             return _context.Medico.Any(e => e.IdMedico == id);
         }
+
+
+        public string TraerHorarioAtencionDesde (int idMedico)
+        {
+            var HorarioAtencionDesde = _context.Medico.Where(m => m.IdMedico == idMedico).FirstOrDefault().HorarioAtencionDesde;
+            return HorarioAtencionDesde.Hour + " : " + HorarioAtencionDesde.Minute;
+        }
+        public string TraerHorarioAtencionHasta (int idMedico)
+        {
+            var HorarioAtencionHasta = _context.Medico.Where(m => m.IdMedico == idMedico).FirstOrDefault().HorarioAtencionHasta;
+            return HorarioAtencionHasta.Hour + " : " + HorarioAtencionHasta.Minute;
+        }
+
     }
 }

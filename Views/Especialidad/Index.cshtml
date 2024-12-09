@@ -16,7 +16,7 @@
         <tbody>
             @*Aca va el codigo para mostrar los registros de la BBDD*@
             @foreach(var item in Model){
-                <tr>
+                <tr class="hoverable">
                     <td>
                         @Html.DisplayFor(modelItem => item.Descripcion)
                     </td>

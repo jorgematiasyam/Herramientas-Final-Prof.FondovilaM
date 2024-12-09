@@ -32,16 +32,18 @@ namespace Turnos.Models
 
         [Display(Name = "Horario Desde")]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh:mm tt}, ApplyFormatInEditMode = true ")]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
         public DateTime HorarioAtencionDesde { get; set; }
 
         [Display(Name = "Horario Hasta")]
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:hh:mm tt}, ApplyFormatInEditMode = true")]
+        [DisplayFormat(DataFormatString = "{0:hh:mm tt}", ApplyFormatInEditMode = true)]
 
 
         public DateTime HorarioAtencionHasta { get; set; }
         public List<MedicoEspecialidad> MedicoEspecialidad { get; set; }
+        public List<Turno> Turno {get; set;}
+
 
     }
 

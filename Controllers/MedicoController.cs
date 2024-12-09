@@ -58,6 +58,7 @@ namespace Turnos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdMedico,Nombre,Apellido,Direccion,Telefono,Email,HorarioAtencionDesde,HorarioAtencionHasta")] Medico medico, int IdEspecialidad)
         {
+            ViewData["ListaEspecialidades"] = new SelectList(_context.Especialidad,"IdEspecialidad","Descripcion", IdEspecialidad);
             if (ModelState.IsValid)
             {
                 _context.Add(medico);
@@ -66,15 +67,15 @@ namespace Turnos.Controllers
                 var medicoEspecialidad = new MedicoEspecialidad();
                 medicoEspecialidad.IdMedico = medico.IdMedico;
                 medicoEspecialidad.IdEspecialidad = IdEspecialidad;
-
+                
                 _context.Add(medicoEspecialidad);
                 await _context.SaveChangesAsync();
-
 
                 return RedirectToAction(nameof(Index));
             }
             return View(medico);
         }
+
 
         // GET: Medico/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -91,8 +92,9 @@ namespace Turnos.Controllers
                 return NotFound();
             }
 
-            ViewData["ListaEspecialidades"] = new SelectList(
-                _context.Especialidad, "IdEspecialidad", "Descripcion", medico.MedicoEspecialidad[0].IdEspecialidad);
+            SelectList especialidades = new SelectList(
+                _context.Especialidad, "IdEspecialidad", "Descripcion", medico.MedicoEspecialidad.Count > 0 ? medico.MedicoEspecialidad[0].IdEspecialidad: 0);            
+            ViewData["ListaEspecialidades"] = especialidades;
 
 
             return View(medico);

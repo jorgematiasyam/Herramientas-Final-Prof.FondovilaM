@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+
+@{
+    if(Context.Session.GetString("usuario") == null)
+    {
+
+        Context.Response.Redirect("/Login");
+    }
+}
+
+<!--Si pasan 300 segundos se cierra el Login -->
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,6 +37,8 @@
         <li><a asp-controller="Paciente" asp-action="Index">Paciente</a></li>
         <li><a asp-controller="Medico" asp-action="Index">Medico</a></li>
         <li><a asp-controller="Turno" asp-action="Index">Turnos</a></li>
+        <li><a asp-controller="Login" asp-action="Logout">Logout</a></li>
+
 
 
       </ul>
@@ -35,6 +51,7 @@
         <li><a asp-controller="Paciente" asp-action="Index">Paciente</a></li>
         <li><a asp-controller="Medico" asp-action="Index">Medico</a></li>
         <li><a asp-controller="Turno" asp-action="Index">Turnos</a></li>
+        <li><a asp-controller="Login" asp-action="Logout">Logout</a></li>
 
   </ul>
 

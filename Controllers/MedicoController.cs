@@ -47,7 +47,7 @@ namespace Turnos.Controllers
         // GET: Medico/Create
         public IActionResult Create()
         {
-            ViewData["ListaEspecialidades"] = new SelectList(_context.Especialidad, "IdEspecialidad", "Descripcion");
+            ViewData["ListaEspecialidades"] = new SelectList(_context.Especialidad,"IdEspecialidad","Descripcion");
             return View();
         }
 
@@ -76,7 +76,6 @@ namespace Turnos.Controllers
             return View(medico);
         }
 
-
         // GET: Medico/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,25 +85,37 @@ namespace Turnos.Controllers
             }
 
             var medico = await _context.Medico.Where(m => m.IdMedico == id)
-            .Include(medico => medico.MedicoEspecialidad).FirstOrDefaultAsync();
+            .Include(me => me.MedicoEspecialidad).FirstOrDefaultAsync();
+
             if (medico == null)
             {
                 return NotFound();
             }
 
+
+ //           ViewData["ListaEspecialidades"] = new SelectList(
+ //               _context.Especialidad,"IdEspecialidad", "Descripcion", medico.MedicoEspecialidad[0].IdEspecialidad);
+
+
+            
+
+
             SelectList especialidades = new SelectList(
                 _context.Especialidad, "IdEspecialidad", "Descripcion", medico.MedicoEspecialidad.Count > 0 ? medico.MedicoEspecialidad[0].IdEspecialidad: 0);            
             ViewData["ListaEspecialidades"] = especialidades;
 
-
             return View(medico);
         }
 
-        // POST: Medico/Edit/
+        // POST: Medico/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdMedico,Nombre,Apellido,Direccion,Telefono,Email,HorarioAtencionDesde,HorarioAtencionHasta")] Medico medico, int IdEspecialidad)
         {
+            ViewData["ListaEspecialidades"] = new SelectList(_context.Especialidad,"IdEspecialidad","Descripcion", IdEspecialidad);
+
             if (id != medico.IdMedico)
             {
                 return NotFound();
@@ -119,11 +130,12 @@ namespace Turnos.Controllers
 
                     var medicoEspecialidad = await _context.MedicoEspecialidad
                     .FirstOrDefaultAsync(me => me.IdMedico == id);
-//Rompe porque trata de modificar Id que es una PK. Para eso hago Remove
 
                     _context.Remove(medicoEspecialidad);
                     await _context.SaveChangesAsync();
+
                     medicoEspecialidad.IdEspecialidad = IdEspecialidad;
+
                     _context.Add(medicoEspecialidad);
                     await _context.SaveChangesAsync();
 
@@ -143,9 +155,6 @@ namespace Turnos.Controllers
             }
             return View(medico);
         }
-
-
-
 
         // GET: Medico/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -172,12 +181,15 @@ namespace Turnos.Controllers
         {
             var medicoEspecialidad = await _context.MedicoEspecialidad
             .FirstOrDefaultAsync(me => me.IdMedico == id);
+
             _context.MedicoEspecialidad.Remove(medicoEspecialidad);
             await _context.SaveChangesAsync();
 
             var medico = await _context.Medico.FindAsync(id);
+            
             _context.Medico.Remove(medico);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -186,17 +198,16 @@ namespace Turnos.Controllers
             return _context.Medico.Any(e => e.IdMedico == id);
         }
 
-
         public string TraerHorarioAtencionDesde (int idMedico)
         {
             var HorarioAtencionDesde = _context.Medico.Where(m => m.IdMedico == idMedico).FirstOrDefault().HorarioAtencionDesde;
-            return HorarioAtencionDesde.Hour + " : " + HorarioAtencionDesde.Minute;
+            return HorarioAtencionDesde.Hour + ":" + HorarioAtencionDesde.Minute;
         }
+
         public string TraerHorarioAtencionHasta (int idMedico)
         {
             var HorarioAtencionHasta = _context.Medico.Where(m => m.IdMedico == idMedico).FirstOrDefault().HorarioAtencionHasta;
-            return HorarioAtencionHasta.Hour + " : " + HorarioAtencionHasta.Minute;
+            return HorarioAtencionHasta.Hour + ":" + HorarioAtencionHasta.Minute;
         }
-
     }
 }

@@ -68,14 +68,20 @@
                     <label asp-for="HorarioAtencionHasta"></label>
                     <span asp-validation-for="HorarioAtencionHasta" ></span>
                 </div>
- 
+           
                 <div class="input-field col s6">
                 <i class="material-icons prefix">build_circle</i>
                 <select name="IdEspecialidad" asp-items="ViewBag.ListaEspecialidades">
-                    <option value="" disabled selected>Especialidad</option>
+                    
                 </select>
             </div>
-        </div>
+         </div>
+
+
+
+
+
+
  
         <div class="row">
             <button class="btn waves-effect waves-light teal lighten-1" type="submit" name="action">Guardar

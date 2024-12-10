@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System;
+
 namespace Turnos.Models
 {
 public class Especialidad

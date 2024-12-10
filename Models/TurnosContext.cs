@@ -18,11 +18,6 @@ namespace Turnos.Models
         public DbSet<Turno> Turno {get; set;}
         public DbSet<Login> Login {get; set;}
 
-
-        
-
-
-
          protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Especialidad>(entidad => 

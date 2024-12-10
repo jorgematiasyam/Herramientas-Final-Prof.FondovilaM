@@ -92,17 +92,14 @@ namespace Turnos.Controllers
                 return NotFound();
             }
 
-
- //           ViewData["ListaEspecialidades"] = new SelectList(
- //               _context.Especialidad,"IdEspecialidad", "Descripcion", medico.MedicoEspecialidad[0].IdEspecialidad);
-
-
-            
-
-
             SelectList especialidades = new SelectList(
                 _context.Especialidad, "IdEspecialidad", "Descripcion", medico.MedicoEspecialidad.Count > 0 ? medico.MedicoEspecialidad[0].IdEspecialidad: 0);            
             ViewData["ListaEspecialidades"] = especialidades;
+
+
+ //            ViewData["ListaEspecialidades"] = new SelectList(_context.Especialidad,"IdEspecialidad","Descripcion", medico.MedicoEspecialidad[0].IdEspecialidad);
+
+
 
             return View(medico);
         }
